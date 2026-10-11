@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Calculator as CalculatorIcon, RefreshCw } from "lucide-react";
-import { PublicNav, Footer, formatINR } from "@/components/collectflow";
+import { PublicNav, Footer } from "@/components/PublicChrome";
+import { formatINR } from "@/lib/demo";
 
 export default function Calculator() {
   const [amount, setAmount] = useState(100000);

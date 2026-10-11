@@ -11,6 +11,7 @@ from typing import List
 import uuid
 from datetime import datetime
 from clerk_auth import clerk_router
+from routers.business import router as business_router
 
 
 ROOT_DIR = Path(__file__).parent
@@ -78,4 +79,5 @@ logger = logging.getLogger(__name__)
 
 # Fold every route into the shared /api router before mounting it once.
 api_router.include_router(clerk_router)
+api_router.include_router(business_router)
 app.include_router(api_router)

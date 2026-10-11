@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Check, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
-import { PublicNav, Footer } from "@/components/collectflow";
+import { PublicNav, Footer } from "@/components/PublicChrome";
 
 const plans = [
   { name: "Free", monthly: 0, capacity: "Up to 5 invoices/month", desc: "For freelancers testing a simple workflow", features: ["Basic customer list", "Demo PDF preview", "Local sample data"] },

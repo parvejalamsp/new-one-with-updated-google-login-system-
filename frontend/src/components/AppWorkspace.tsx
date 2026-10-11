@@ -1,0 +1,36 @@
+import type { ReactNode } from "react";
+import { useState } from "react";
+import { Show, useClerk, useUser } from "@clerk/react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { BarChart3, Bell, ChevronRight, CircleHelp, CreditCard, FileText, Home, LogOut, Menu, Plus, Repeat2, Settings, Users, X } from "lucide-react";
+import { Logo } from "@/components/PublicChrome";
+import { queryClient } from "@/lib/queryClient";
+import { useWorkspace } from "@/lib/business";
+
+const links = [{ to: "/app", label: "Overview", icon: Home, exact: true }, { to: "/app/invoices", label: "Invoices", icon: FileText }, { to: "/app/clients", label: "Clients", icon: Users }, { to: "/app/recurring", label: "Recurring billing", icon: Repeat2 }, { to: "/app/reports", label: "Reports", icon: BarChart3 }, { to: "/app/settings", label: "Settings", icon: Settings }];
+
+export function AppShell({ children }: { title: string; children: ReactNode }) {
+  const navigate = useNavigate();
+  const { signOut } = useClerk();
+  const { user } = useUser();
+  const workspace = useWorkspace();
+  const [open, setOpen] = useState(false);
+  const name = user?.fullName || user?.firstName || "collectFlow user";
+  const email = user?.primaryEmailAddress?.emailAddress || "Google account";
+  const initials = name.split(" ").map((part) => part[0]).join("").slice(0, 2).toUpperCase();
+  const logout = async () => { queryClient.clear(); await signOut(); navigate("/"); };
+  return <div className="min-h-screen bg-[#f4f7fb] text-slate-900"><button onClick={() => setOpen(true)} className="fixed left-4 top-4 z-30 grid size-11 place-items-center rounded-xl border bg-white shadow-sm lg:hidden" aria-label="Open navigation" data-testid="dashboard-open-menu-button"><Menu className="size-4" /></button><aside className={`fixed inset-y-0 left-0 z-50 w-72 border-r bg-white px-5 py-6 transition-transform lg:translate-x-0 ${open ? "translate-x-0" : "-translate-x-full"}`}><div className="flex items-center justify-between"><Logo /><button onClick={() => setOpen(false)} className="grid size-10 place-items-center lg:hidden" aria-label="Close navigation" data-testid="dashboard-close-menu-button"><X className="size-4" /></button></div><div className="mt-8 rounded-2xl bg-slate-950 p-4 text-white" data-testid="dashboard-identity-card"><div className="flex items-center gap-3">{user?.imageUrl ? <img src={user.imageUrl} alt="Signed-in Google profile" className="size-10 rounded-xl object-cover" data-testid="dashboard-user-avatar" /> : <div className="grid size-10 place-items-center rounded-xl bg-blue-500 font-bold" data-testid="dashboard-user-initials">{initials}</div>}<div className="min-w-0"><p className="truncate text-sm font-semibold" data-testid="dashboard-user-name">{name}</p><p className="truncate text-xs text-slate-400" data-testid="dashboard-user-email">{email}</p></div></div><div className="mt-4 flex items-center justify-between text-xs"><span className="text-slate-400">Agency workspace</span><span className="rounded-full bg-emerald-400/15 px-2 py-1 text-emerald-200" data-testid="dashboard-storage-badge">Persistent</span></div></div><nav className="mt-6 grid gap-1" data-testid="dashboard-sidebar-nav">{links.map(({ to, label, icon: Icon, exact }) => <NavLink key={to} to={to} end={exact} onClick={() => setOpen(false)} className={({ isActive }) => `flex min-h-11 items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium ${isActive ? "bg-blue-50 text-blue-700" : "text-slate-500 hover:bg-slate-50 hover:text-slate-950"}`} data-testid={`dashboard-nav-${label.toLowerCase().replaceAll(" ", "-")}`}><Icon className="size-[18px]" />{label}{label === "Invoices" && <span className="ml-auto rounded-full bg-slate-100 px-2 py-0.5 text-[10px] text-slate-500" data-testid="dashboard-invoice-count">{workspace.data?.summary.invoice_count ?? 0}</span>}</NavLink>)}</nav><div className="absolute inset-x-5 bottom-6 grid gap-1 border-t pt-4"><button onClick={() => navigate("/help")} className="flex min-h-11 items-center gap-3 rounded-xl px-3 text-sm font-medium text-slate-500 hover:bg-slate-50" data-testid="dashboard-help-button"><CircleHelp className="size-[18px]" />Help center</button><button onClick={logout} className="flex min-h-11 items-center gap-3 rounded-xl px-3 text-sm font-medium text-slate-500 hover:bg-rose-50 hover:text-rose-600" data-testid="dashboard-logout-button"><LogOut className="size-[18px]" />Sign out</button></div></aside>{open && <button onClick={() => setOpen(false)} className="fixed inset-0 z-40 bg-slate-950/30 lg:hidden" aria-label="Close navigation" data-testid="dashboard-nav-overlay" />}{children}</div>;
+}
+
+export function AppContent({ title, eyebrow, action, children }: { title: string; eyebrow?: string; action?: ReactNode; children: ReactNode }) {
+  return <main className="min-h-screen lg:pl-72"><div className="mx-auto max-w-[1440px] px-4 pb-14 pt-20 sm:px-8 lg:px-10 lg:pt-10"><div className="mb-8 flex flex-col items-start justify-between gap-4 sm:flex-row"><div><p className="text-xs font-bold uppercase tracking-[.2em] text-blue-600" data-testid="page-eyebrow">{eyebrow ?? "Workspace"}</p><h1 className="mt-2 font-heading text-3xl font-extrabold tracking-[-.04em] sm:text-4xl" data-testid="page-title">{title}</h1></div><div className="flex w-full items-center gap-3 sm:w-auto"><button className="hidden rounded-xl border bg-white p-2.5 text-slate-500 shadow-sm sm:block" aria-label="Notifications unavailable" data-testid="notification-button"><Bell className="size-4" /></button>{action}</div></div>{children}</div></main>;
+}
+
+export function Metric({ label, value, change, icon: Icon, tone = "blue" }: { label: string; value: string; change: string; icon: typeof CreditCard; tone?: "blue" | "emerald" | "amber" | "rose" }) {
+  const tones = { blue: "bg-blue-50 text-blue-600", emerald: "bg-emerald-50 text-emerald-600", amber: "bg-amber-50 text-amber-600", rose: "bg-rose-50 text-rose-600" };
+  return <div className="rounded-2xl border bg-white p-5 shadow-sm" data-testid={`metric-card-${label.toLowerCase().replaceAll(" ", "-")}`}><div className="flex items-center justify-between"><span className={`grid size-10 place-items-center rounded-xl ${tones[tone]}`}><Icon className="size-5" /></span><span className="text-xs font-semibold text-slate-400">{change}</span></div><p className="mt-5 text-sm text-slate-500">{label}</p><p className="mt-1 font-heading text-2xl font-extrabold" data-testid={`metric-value-${label.toLowerCase().replaceAll(" ", "-")}`}>{value}</p></div>;
+}
+
+export function QuickAction({ icon: Icon, label, onClick, testId }: { icon: typeof Plus; label: string; onClick: () => void; testId: string }) {
+  return <button onClick={onClick} className="flex min-h-12 items-center gap-3 rounded-xl border bg-white px-4 py-3 text-left text-sm font-semibold text-slate-700 shadow-sm hover:border-blue-200 hover:text-blue-700" data-testid={testId}><span className="grid size-8 place-items-center rounded-lg bg-blue-50 text-blue-600"><Icon className="size-4" /></span>{label}<ChevronRight className="ml-auto size-4 text-slate-300" /></button>;
+}

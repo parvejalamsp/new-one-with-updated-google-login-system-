@@ -1,0 +1,113 @@
+{
+  "iteration": 3,
+  "mode": "generate",
+  "summary": "Full re-generation of test artifacts for the new Clerk-auth + persistent-backend collectFlow app (previous iteration's checks tested an obsolete localStorage/mock-login build and were removed). 8/8 acceptance criteria covered: 8 browser checks (one per criterion) + 15 backend pytest cases across 6 files (one per API-bearing criterion). All 23 artifacts pass.",
+  "passed": 23,
+  "failed": 0,
+  "bugs": [],
+  "action_items": [
+    "Clerk sign-in tickets/sessions are single-use and short-lived. All auth-dependent browser checks and the backend conftest mint a FRESH ticket/session via the dev Clerk Backend API (sk_test_... key read from backend/.env at run time) on every execution, so they stay re-runnable indefinitely. The sk_test key is embedded in the check scripts and conftest.py only because it is a non-production dev-instance secret explicitly sanctioned by the briefing for headless test sign-in; do not reuse this pattern for production credentials.",
+    "Minor non-blocking console warning observed during invoice status-select interaction: 'In HTML, <span> cannot be a child of <option>' (React hydration warning from a styled <option> in MvpCollectionQueue). Does not affect functionality; noted for code hygiene, not filed as a bug."
+  ],
+  "retest_needed": false,
+  "checks": [
+    {
+      "criterion": "Google-only authentication protects every /app route, restores a valid session, shows the signed-in identity, and sign-out returns to public UI",
+      "name": "auth-session-guards-workspace",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Signed-out GET /app redirected to /login (google-signin-page visible). Fresh Clerk sign-in ticket for collectflow.browser+clerk_test@example.com via /login?__clerk_ticket=... landed on /app with dashboard-user-name containing 'Casey'. Reload preserved the session. dashboard-logout-button click navigated back to '/' with navbar-btn-login visible. Also re-run successfully against the public preview URL https://collectflow-preview.preview.emergentagent.com."
+    },
+    {
+      "criterion": "Persistent client workflow supports create, view, edit, search, archive and restore with optional GSTIN/contact fields",
+      "name": "client-workflow-crud",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Created tscheck-client-<ts> with GSTIN/contact via UI, saw 'created' feedback, edited contact name, reload kept the edit, search filtered to exactly 1 row, archive removed it from the active list with 'archived' feedback, toggling archived view + restore brought it back active."
+    },
+    {
+      "criterion": "Persistent client workflow (API)",
+      "name": "test_tscheck_clients.py",
+      "lane": "backend",
+      "status": "passed",
+      "evidence": "POST /clients 201 with gstin/contact fields; PATCH /clients/{id} 200 persists edit; GET /workspace reflects the edited row; archive PATCH sets archived=true (row retained, not deleted); restore PATCH sets archived=false. Second test: POST /clients with invalid GSTIN format -> 422."
+    },
+    {
+      "criterion": "Persistent invoice workflow validates input, creates unique per-agency numbers, edits drafts, derives draft/pending/due-soon/overdue/paid status, and keeps filters/counts consistent",
+      "name": "invoice-workflow-validation-status",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Due-date-before-invoice-date and zero-amount submissions both surfaced invoice-validation-error. Valid draft got invoice_number matching CF-\\d{4}-\\d{4}. Draft edit persisted via invoice-feedback 'updated'. Moving to pending with a due date 3 days out derived 'Due soon' server-side. Filtering the queue by due_soon surfaced the same invoice; summary count incremented by exactly 1 for the created invoice."
+    },
+    {
+      "criterion": "Persistent invoice workflow (API)",
+      "name": "test_tscheck_invoices.py",
+      "lane": "backend",
+      "status": "passed",
+      "evidence": "POST /invoices 422 for due<invoice date, 422 for subtotal=0, 422 for blank description. Valid create 201 with invoice_number matching CF-YYYY-NNNN and correct GST total. PATCH on draft 200 persists edit. PATCH moving to pending with a due date 5 days in the past derived status='overdue' from the backend clock. Further PATCH on the now-non-draft invoice returned 409. GET /workspace shows exactly one row for this id with status 'overdue'."
+    },
+    {
+      "criterion": "Manual payment recording updates balance and paid state without implying payment processing",
+      "name": "payment-recording-balance",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Fresh draft invoice showed payment-draft-disabled (no payment form). Moved to pending; entering amount > balance produced payment-error (overpay rejected, confirmed by a logged 422 from the API). Partial payment recorded, invoice-feedback read '...did not move money', balance decreased, status stayed non-paid. Paying the remaining balance flipped status to 'Paid' with payment-paid-state visible."
+    },
+    {
+      "criterion": "Manual payment recording (API)",
+      "name": "test_tscheck_payments.py",
+      "lane": "backend",
+      "status": "passed",
+      "evidence": "POST /invoices/{draft}/payments -> 409 (rejected on draft). POST payment amount=balance+500 -> 422 (exceeds balance). Partial payment -> 201, GET /workspace balance = balance-partial, status != paid. Remainder payment -> 201, final balance == 0 and status == 'paid'."
+    },
+    {
+      "criterion": "Invoice PDF and report CSV exports create real local files",
+      "name": "exports-pdf-csv-real-files",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "invoice-pdf-download-button produced a download whose suggestedFilename ends in .pdf and whose bytes start with '%PDF'; invoice-feedback confirmed 'real PDF' messaging. reports-export-button produced collectflow-invoices.csv containing the 'Invoice' header and the just-created draft row."
+    },
+    {
+      "criterion": "Invoice PDF export (API)",
+      "name": "test_tscheck_exports.py",
+      "lane": "backend",
+      "status": "passed",
+      "evidence": "GET /invoices/{id}/pdf -> 200, content-type application/pdf, content-disposition includes the invoice number, body starts with b'%PDF', length > 500 bytes. Cross-owner GET by riley_client on a Casey-owned invoice id -> 404."
+    },
+    {
+      "criterion": "Persistent follow-ups and user-triggered email drafts are truthful",
+      "name": "followups-and-email-draft",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Created follow-up note, invoice-feedback read '...No message was sent'. Reload + reopening the invoice via search showed the note still present. Edited the note text, persisted. Marked complete, feedback confirmed 'complete'. reminder-draft-button click produced feedback containing '...did not send it' (mailto draft, not a sent message)."
+    },
+    {
+      "criterion": "Persistent follow-ups (API)",
+      "name": "test_tscheck_followups.py",
+      "lane": "backend",
+      "status": "passed",
+      "evidence": "POST /follow-ups 201; PATCH edits note -> 200 persists; PATCH status=completed -> 200; GET /workspace shows the edited, completed row. POST /follow-ups with a non-existent invoice_id -> 404."
+    },
+    {
+      "criterion": "Core public/workspace pages remain practical at 360/390/768/1024/1440px and product claims match availability",
+      "name": "responsive-claims-and-overflow",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "No horizontal overflow (scrollWidth <= clientWidth) on '/' at all 5 widths nor on signed-in '/app' at all 5 widths nor on /app/invoices (390) with the new-invoice form open. metrics-demo-label text does not contain fictional scale claims (million/billion/users worldwide). Mobile nav at 360 reaches the Pricing link. /calculator shows 'Estimate only' in overdue-calculator-assumptions. /app/recurring shows recurring-unavailable-state text containing 'not connected' instead of a working feature."
+    },
+    {
+      "criterion": "Agency data isolation is enforced server-side",
+      "name": "isolation-riley-blocked",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Signed in as Riley (collectflow.isolation+clerk_test@example.com); dashboard, /app/clients and /app/invoices pages show zero occurrences of Casey's seeded 'Browser Agency 064750' and 'CF-2026-0002'."
+    },
+    {
+      "criterion": "Agency data isolation (API)",
+      "name": "test_tscheck_isolation.py",
+      "lane": "backend",
+      "status": "passed",
+      "evidence": "GET /workspace with no Authorization header -> 401. Casey-created client marker absent from Riley's GET /workspace. Riley PATCH on Casey's client id -> 404 (and Casey's record verified unchanged). Riley POST payment on Casey's invoice id -> 404."
+    }
+  ]
+}

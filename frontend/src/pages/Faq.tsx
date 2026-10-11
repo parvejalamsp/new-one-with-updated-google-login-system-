@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Search, Send } from "lucide-react";
-import { Footer, PublicNav } from "@/components/collectflow";
+import { Footer, PublicNav } from "@/components/PublicChrome";
 
 const questions = [
   { category: "Getting started", q: "How quickly can I create a draft?", a: "Enter the demo workspace, choose a seeded client, add the required fields, and save the draft locally." },

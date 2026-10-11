@@ -1,9 +1,9 @@
 import type { ReactNode } from "react";
-import { ClerkProvider } from "@clerk/react";
+import { ClerkProvider, useAuth } from "@clerk/react";
 import { useQuery } from "@tanstack/react-query";
 import { RefreshCw, ShieldAlert } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { apiGet } from "@/lib/api";
+import { apiGet, setAuthTokenProvider } from "@/lib/api";
 
 interface ClerkConfig {
   enabled: boolean;
@@ -24,6 +24,12 @@ const appearance = {
     borderRadius: "0.875rem",
   },
 };
+
+function AuthenticatedApiBridge({ children }: { children: ReactNode }) {
+  const { getToken } = useAuth();
+  setAuthTokenProvider(() => getToken());
+  return children;
+}
 
 export default function ClerkAuthProvider({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
@@ -52,5 +58,5 @@ export default function ClerkAuthProvider({ children }: { children: ReactNode })
     signInFallbackRedirectUrl="/app"
     signUpFallbackRedirectUrl="/app"
     afterSignOutUrl="/"
-  >{children}</ClerkProvider>;
+  ><AuthenticatedApiBridge>{children}</AuthenticatedApiBridge></ClerkProvider>;
 }

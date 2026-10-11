@@ -17,12 +17,26 @@ export class ApiError extends Error {
 }
 
 type JsonBody = unknown;
+type TokenProvider = () => Promise<string | null>;
+let tokenProvider: TokenProvider | null = null;
+
+export function setAuthTokenProvider(provider: TokenProvider | null) {
+  tokenProvider = provider;
+}
+
+async function authHeaders(hasBody: boolean): Promise<HeadersInit> {
+  const headers: Record<string, string> = {};
+  if (hasBody) headers["Content-Type"] = "application/json";
+  const token = await tokenProvider?.();
+  if (token) headers.Authorization = `Bearer ${token}`;
+  return headers;
+}
 
 async function request<T>(method: string, path: string, body?: JsonBody): Promise<T> {
   // Auth rides the httpOnly session cookie automatically — never add auth headers here.
   const res = await fetch(`${BASE}${path}`, {
     method,
-    headers: body === undefined ? undefined : { "Content-Type": "application/json" },
+    headers: await authHeaders(body !== undefined),
     body: body === undefined ? undefined : JSON.stringify(body),
   });
 
@@ -44,3 +58,14 @@ export const apiPut = <T>(path: string, body?: JsonBody) => request<T>("PUT", pa
 export const apiPatch = <T>(path: string, body?: JsonBody) =>
   request<T>("PATCH", path, body ?? null);
 export const apiDelete = <T>(path: string) => request<T>("DELETE", path);
+
+export async function apiDownload(path: string): Promise<{ blob: Blob; filename: string }> {
+  const res = await fetch(`${BASE}${path}`, { headers: await authHeaders(false) });
+  if (!res.ok) {
+    const errBody = await res.json().catch(() => null);
+    throw new ApiError(res.status, errBody);
+  }
+  const disposition = res.headers.get("content-disposition") ?? "";
+  const filename = disposition.match(/filename="?([^";]+)"?/)?.[1] ?? "download.pdf";
+  return { blob: await res.blob(), filename };
+}

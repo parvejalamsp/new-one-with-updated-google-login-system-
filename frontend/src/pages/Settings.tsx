@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Check, Moon, Save, Sun } from "lucide-react";
-import { AppContent, AppShell } from "@/components/collectflow";
+import { AppContent, AppShell } from "@/components/AppWorkspace";
 
 export default function Settings() {
   const [dark, setDark] = useState(localStorage.getItem("collectflow-theme") === "dark"); const [saved, setSaved] = useState(false); const [business, setBusiness] = useState("Acme Studio"); const [gstin, setGstin] = useState("27AABCA1234L1Z5"); const [prefix, setPrefix] = useState("CF-");

@@ -19,6 +19,24 @@ logger = logging.getLogger(__name__)
 # One entry per collection: every field a route filters, sorts, or dedupes on. Applied by ensure_indexes() at startup.
 INDEXES: dict[str, list[IndexModel]] = {
     "status_checks": [IndexModel([("timestamp", DESCENDING)], name="timestamp_desc")],
+    "clients": [
+        IndexModel([("owner_id", ASCENDING), ("id", ASCENDING)], name="owner_client_id", unique=True),
+        IndexModel([("owner_id", ASCENDING), ("archived", ASCENDING), ("business_name", ASCENDING)], name="owner_archived_name"),
+    ],
+    "invoices": [
+        IndexModel([("owner_id", ASCENDING), ("id", ASCENDING)], name="owner_invoice_id", unique=True),
+        IndexModel([("owner_id", ASCENDING), ("invoice_number", ASCENDING)], name="owner_invoice_number", unique=True),
+        IndexModel([("owner_id", ASCENDING), ("client_id", ASCENDING), ("created_at", DESCENDING)], name="owner_client_created"),
+    ],
+    "payments": [
+        IndexModel([("owner_id", ASCENDING), ("id", ASCENDING)], name="owner_payment_id", unique=True),
+        IndexModel([("owner_id", ASCENDING), ("invoice_id", ASCENDING), ("created_at", DESCENDING)], name="owner_invoice_payment_created"),
+    ],
+    "follow_ups": [
+        IndexModel([("owner_id", ASCENDING), ("id", ASCENDING)], name="owner_followup_id", unique=True),
+        IndexModel([("owner_id", ASCENDING), ("invoice_id", ASCENDING), ("created_at", DESCENDING)], name="owner_invoice_followup_created"),
+    ],
+    "counters": [IndexModel([("owner_id", ASCENDING), ("name", ASCENDING)], name="owner_counter_name", unique=True)],
 }
 
 
