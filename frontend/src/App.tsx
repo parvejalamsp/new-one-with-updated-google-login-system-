@@ -27,7 +27,7 @@ export default function App() {
       <Route path="/calculator" element={<Calculator />} />
       <Route path="/faq" element={<Faq />} />
       <Route path="/login/*" element={<Login />} />
-      <Route path="/signup/*" element={<Navigate to="/login" replace />} />
+      <Route path="/signup/*" element={<Login />} />
       <Route path="/forgot-password" element={<Navigate to="/login" replace />} />
       <Route path="/about" element={<Information />} />
       <Route path="/security" element={<Information />} />
@@ -37,6 +37,7 @@ export default function App() {
       <Route path="/api-docs" element={<Information />} />
       <Route path="/terms" element={<Information />} />
       <Route path="/privacy" element={<Information />} />
+      <Route path="/refund" element={<Information />} />
       <Route path="/app" element={<ProtectedWorkspace><MvpDashboard /></ProtectedWorkspace>} />
       <Route path="/app/invoices" element={<ProtectedWorkspace><MvpCollectionQueue /></ProtectedWorkspace>} />
       <Route path="/app/clients" element={<ProtectedWorkspace><MvpClients /></ProtectedWorkspace>} />

@@ -3,15 +3,15 @@ import { Link } from "react-router-dom";
 import { ArrowRight, BarChart3, Check, ChevronDown, IndianRupee, LockKeyhole, ReceiptIndianRupee, Sparkles, WalletCards, Zap } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Footer, PublicNav } from "@/components/PublicChrome";
-import { formatINR } from "@/lib/demo";
+import { formatINR } from "@/lib/currency";
 
 const features = [
-  [ReceiptIndianRupee, "Smart invoicing", "Auto-numbered drafts, GST-aware fields, HSN/SAC codes, and print-preview layouts."],
-  [WalletCards, "Client records", "Create, edit, search, and archive account-scoped clients with optional GSTIN and contact details."],
-  [IndianRupee, "Manual payments", "Record payments received and keep invoice balances and statuses consistent without implying money movement."],
-  [BarChart3, "Live summaries", "Review totals, open balances, overdue exposure, and collection priorities from persistent records."],
-  [LockKeyhole, "Secure access", "Use configured Google sign-in with every business record scoped to the signed-in agency."],
-  [Zap, "Fast and focused", "Keep the next collection action within easy reach."],
+  [ReceiptIndianRupee, "Smart Invoicing", "Auto-generated invoice numbers, GST support, and professional PDF exports."],
+  [WalletCards, "Customer CRM", "Manage clients with GSTIN, contact details, balances, and complete invoice history."],
+  [IndianRupee, "Payment Tracking", "Record payments received and keep invoice balances and collection status accurate."],
+  [BarChart3, "Analytics", "Revenue summaries, outstanding balances, reports, and business insights at a glance."],
+  [LockKeyhole, "Secure Auth", "Google authentication and account-scoped records keep each agency workspace separate."],
+  [Zap, "Fast & Modern", "A focused, responsive workspace that keeps the next collection action within reach."],
 ] as const;
 
 const plans = [
@@ -38,12 +38,12 @@ export default function Home() {
           <div className="pointer-events-none absolute left-1/2 top-0 h-[620px] w-[900px] max-w-full -translate-x-1/2 rounded-full bg-blue-100/60 blur-3xl" />
           <div className="relative mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-[.95fr_1.05fr]">
             <div>
-              <Badge variant="outline" className="h-auto max-w-full whitespace-normal rounded-full border-blue-200 bg-white px-3 py-1.5 text-left text-blue-700 shadow-sm" data-testid="hero-announcement"><Sparkles className="mr-1.5 size-3.5 shrink-0" />Persistent invoicing · account-scoped collections</Badge>
+              <Badge variant="outline" className="h-auto max-w-full whitespace-normal rounded-full border-blue-200 bg-blue-50 px-4 py-1.5 text-left text-blue-700" data-testid="hero-announcement"><Sparkles className="mr-1.5 size-3.5 shrink-0" />Invoice &amp; Billing Made Simple</Badge>
               <h1 className="mt-7 max-w-3xl font-heading text-4xl font-extrabold leading-[1.06] tracking-[-.065em] text-slate-950 sm:text-6xl lg:text-7xl" data-testid="hero-heading">Manage invoices, customers & payments <span className="text-blue-600">in one place.</span></h1>
-              <p className="mt-6 max-w-xl text-lg leading-8 text-slate-500" data-testid="hero-description">Create client and invoice records, track manual payments, and keep the next follow-up clear. Payment processing and automatic messages remain disabled.</p>
+              <p className="mt-6 max-w-xl text-lg leading-8 text-slate-500" data-testid="hero-description">collectFlow helps Indian businesses create GST-ready invoices, track payments, and grow revenue — all from a beautiful, modern dashboard.</p>
               <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-                <Link to="/login" data-testid="hero-btn-start-free" className="min-h-12 rounded-xl bg-slate-950 px-5 py-3.5 text-center text-sm font-bold text-white shadow-xl shadow-slate-900/15 hover:bg-blue-700">Continue with Google <ArrowRight className="ml-2 inline size-4" /></Link>
-                <Link to="/pricing" data-testid="hero-btn-view-pricing" className="min-h-12 rounded-xl border border-slate-200 bg-white px-5 py-3.5 text-center text-sm font-bold text-slate-700 shadow-sm hover:border-blue-200 hover:text-blue-700">View sample pricing</Link>
+                <Link to="/signup" data-testid="hero-btn-start-free" className="min-h-12 rounded-xl bg-blue-600 px-5 py-3.5 text-center text-sm font-bold text-white shadow-xl shadow-blue-600/20 hover:bg-blue-700">Start Free <ArrowRight className="ml-2 inline size-4" /></Link>
+                <Link to="/pricing" data-testid="hero-btn-view-pricing" className="min-h-12 rounded-xl border border-slate-200 bg-white px-5 py-3.5 text-center text-sm font-bold text-slate-700 shadow-sm hover:border-blue-200 hover:text-blue-700">View Pricing</Link>
                 <a href="#calculator" data-testid="hero-btn-demo-tour" className="min-h-11 px-2 py-3 text-center text-sm font-semibold text-slate-500 hover:text-slate-950">Try the live estimate ↘</a>
               </div>
               <div className="mt-9 flex flex-wrap gap-x-6 gap-y-3 text-xs font-semibold text-slate-400"><span>✓ GST-aware fields</span><span>✓ Payment test states</span><span>✓ Print preview</span></div>
@@ -52,7 +52,7 @@ export default function Home() {
               <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4"><span className="text-xs font-semibold text-slate-400">collectFlow / overview</span><span className="rounded-lg bg-blue-50 px-2 py-1 text-[10px] font-bold text-blue-700">Sample</span></div>
               <div className="grid gap-5 bg-slate-50/70 p-5 sm:p-7">
                 <div className="flex items-end justify-between gap-4"><div><p className="text-xs font-semibold text-slate-400">Illustrative total</p><p className="mt-1 font-heading text-2xl font-extrabold tracking-[-.05em] sm:text-3xl">₹3,91,800</p></div><span className="rounded-lg bg-blue-50 px-2 py-1 text-xs font-bold text-blue-700">4 invoices</span></div>
-                <div className="flex h-32 items-end gap-2 rounded-2xl border border-slate-100 bg-white px-4 pb-4 pt-5">{[35, 50, 44, 68, 55, 82, 65, 94, 75, 100, 83, 92].map((height, index) => <div key={index} className={`flex-1 rounded-t-md ${index > 7 ? "bg-blue-500" : "bg-blue-100"}`} style={{ height: `${height}%` }} />)}</div>
+                <div className="flex h-32 items-end gap-2 rounded-2xl border border-slate-100 bg-white px-4 pb-4 pt-5">{[35, 50, 44, 68, 55, 82, 65, 94, 75, 100, 83, 92].map((height, index) => <div key={`bar-${height}-${index > 7 ? "recent" : "historic"}`} className={`flex-1 rounded-t-md ${index > 7 ? "bg-blue-500" : "bg-blue-100"}`} style={{ height: `${height}%` }} />)}</div>
                 <div className="grid grid-cols-3 gap-2">{[["Paid", "1"], ["Due soon", "₹48.5K"], ["Overdue", "₹1.25L"]].map(([label, value]) => <div key={label} className="rounded-xl border border-slate-100 bg-white p-3"><p className="text-[9px] font-semibold uppercase tracking-wider text-slate-400">{label}</p><p className="mt-1 font-mono text-sm font-bold">{value}</p></div>)}</div>
               </div>
             </div>
@@ -64,8 +64,9 @@ export default function Home() {
         </section>
 
         <section id="features" className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:py-32">
-          <p className="text-xs font-bold uppercase tracking-[.2em] text-blue-600">The calm in your cash flow</p>
-          <h2 className="mt-4 max-w-2xl font-heading text-4xl font-extrabold tracking-[-.06em] text-slate-950 sm:text-5xl" data-testid="features-heading">Everything you need to plan the next move.</h2>
+          <p className="text-xs font-bold uppercase tracking-[.2em] text-blue-600" data-testid="features-eyebrow">Built for Indian businesses</p>
+          <h2 className="mt-4 max-w-2xl font-heading text-4xl font-extrabold tracking-[-.06em] text-slate-950 sm:text-5xl" data-testid="features-heading">Everything you need to bill smarter.</h2>
+          <p className="mt-4 text-lg text-slate-500" data-testid="features-description">From invoice creation to payment tracking — collectFlow has you covered.</p>
           <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{features.map(([Icon, title, text], index) => <div key={title} className={`rounded-2xl border border-slate-200 bg-white p-6 shadow-sm ${index === 0 ? "lg:bg-slate-950 lg:text-white" : ""}`} data-testid={`feature-card-${index + 1}`}><span className={`grid size-11 place-items-center rounded-xl ${index === 0 ? "bg-blue-500/15 text-blue-300" : "bg-blue-50 text-blue-600"}`}><Icon className="size-5" /></span><h3 className="mt-10 font-heading text-xl font-bold">{title}</h3><p className={`mt-3 text-sm leading-6 ${index === 0 ? "text-slate-400" : "text-slate-500"}`}>{text}</p></div>)}</div>
         </section>
 
@@ -89,7 +90,7 @@ export default function Home() {
 
         <section className="mx-auto max-w-4xl px-4 py-24 sm:px-6"><div className="text-center"><p className="text-xs font-bold uppercase tracking-[.2em] text-blue-600">Questions, answered</p><h2 className="mt-4 font-heading text-4xl font-extrabold tracking-[-.06em]">Know the product boundaries.</h2></div><div className="mt-10 divide-y divide-slate-200 border-y border-slate-200">{[["Can I include GST fields?", "Yes, for estimates and invoice presentation. Tax treatment is not independently verified."], ["Does collectFlow move money?", "No. Manual payment records track receipts, but no payment provider is connected."], ["Where is data stored?", "Business records are stored in MongoDB and scoped to your signed-in agency."]].map(([question, answer], index) => <details key={question} className="group py-5" data-testid={`faq-item-${index + 1}`}><summary className="flex cursor-pointer list-none justify-between gap-4 font-semibold">{question}<ChevronDown className="size-4 shrink-0 group-open:rotate-180" /></summary><p className="mt-3 text-sm leading-6 text-slate-500">{answer}</p></details>)}</div><Link to="/faq" className="mx-auto mt-8 flex w-fit min-h-11 items-center gap-2 text-sm font-bold text-blue-600" data-testid="faq-see-all">Browse all FAQs <ArrowRight className="size-4" /></Link></section>
 
-        <section className="px-4 pb-24 sm:px-6"><div className="mx-auto max-w-7xl rounded-[28px] bg-blue-600 px-6 py-12 text-white sm:px-12 lg:flex lg:items-center lg:justify-between"><div><p className="text-xs font-bold uppercase tracking-[.2em] text-blue-200">Ready to start?</p><h2 className="mt-4 max-w-2xl font-heading text-4xl font-extrabold tracking-[-.06em]">Turn invoices into a clear collection plan.</h2><p className="mt-4 max-w-xl text-blue-100">Google protects the session and business records persist. Payment processing and automatic communication remain disabled.</p></div><Link to="/login" className="mt-8 inline-flex min-h-12 items-center rounded-xl bg-white px-5 py-3.5 text-sm font-bold text-blue-700 lg:mt-0" data-testid="bottom-cta-signup">Continue with Google <ArrowRight className="ml-2 size-4" /></Link></div></section>
+        <section className="px-4 pb-24 sm:px-6"><div className="mx-auto max-w-7xl rounded-[28px] bg-blue-600 px-6 py-12 text-white sm:px-12 lg:flex lg:items-center lg:justify-between"><div><p className="text-xs font-bold uppercase tracking-[.2em] text-blue-200" data-testid="bottom-cta-eyebrow">Ready to simplify your billing?</p><h2 className="mt-4 max-w-2xl font-heading text-4xl font-extrabold tracking-[-.06em]" data-testid="bottom-cta-heading">Start free with collectFlow today.</h2><p className="mt-4 max-w-xl text-blue-100" data-testid="bottom-cta-description">Create GST-ready invoices, manage customers, and track every payment in one secure workspace.</p></div><Link to="/signup" className="mt-8 inline-flex min-h-12 items-center rounded-xl bg-white px-5 py-3.5 text-sm font-bold text-blue-700 lg:mt-0" data-testid="bottom-cta-signup">Create Free Account <ArrowRight className="ml-2 size-4" /></Link></div></section>
       </main>
       <Footer />
     </div>

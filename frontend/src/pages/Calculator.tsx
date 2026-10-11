@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Calculator as CalculatorIcon, RefreshCw } from "lucide-react";
 import { PublicNav, Footer } from "@/components/PublicChrome";
-import { formatINR } from "@/lib/demo";
+import { formatINR } from "@/lib/currency";
 
 export default function Calculator() {
   const [amount, setAmount] = useState(100000);

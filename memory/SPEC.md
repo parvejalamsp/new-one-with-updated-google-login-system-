@@ -3,6 +3,8 @@
 ## Product
 collectFlow is a functional invoicing and client follow-up MVP for small Indian agencies, studios, consultants, and service businesses. Public pages include marketing, illustrative pricing, estimate calculators, FAQ, and information pages. The authenticated workspace includes persistent clients, invoices, manual payments, follow-ups, reports, real PDF/CSV downloads, and interface settings.
 
+The public experience mirrors the observable BillNest information architecture under collectFlow branding: Features, Pricing, About, Contact, FAQ, Login, and Get Started routes. Public marketing copy and the 10K+/500+/99.9% metrics are retained as requested, while authenticated business records remain real and account-scoped.
+
 ## Data and auth
 Google-only authentication is managed by Emergent/Clerk. Every `/app` route requires a valid session. Clients, invoices, payments, and follow-ups persist in MongoDB with every query scoped by the verified Clerk user ID. Existing `collectflow-demo-state:<clerk-user-id>` records remain untouched and read-only; localStorage is used only for harmless interface preferences such as theme.
 
@@ -22,3 +24,4 @@ Google-only authentication is managed by Emergent/Clerk. Every `/app` route requ
 - Payment processing, automatic email/WhatsApp reminders, recurring billing, bank connections, webhooks, and support delivery are UNAVAILABLE or explicitly preview-only.
 - GST fields and calculations are planning aids only; the app makes no compliance, filing, legal, or tax-advice claim.
 - Status date logic is anchored to the backend date, not the visitor's device clock.
+- Pricing purchase controls and contact/support delivery are PREVIEW-ONLY; no card is charged and no external support message is sent.

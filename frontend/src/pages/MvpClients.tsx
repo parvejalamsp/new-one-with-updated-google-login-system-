@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 import { Archive, Building2, Mail, MapPin, Pencil, Phone, Plus, Search, Users, X } from "lucide-react";
@@ -19,12 +19,6 @@ export default function MvpClients() {
   const [showForm, setShowForm] = useState(params.get("new") === "1");
   const [feedback, setFeedback] = useState("");
 
-  useEffect(() => {
-    if (!editing) return;
-    setForm({ business_name: editing.business_name, gstin: editing.gstin, contact_name: editing.contact_name, email: editing.email, phone: editing.phone, address: editing.address, state: editing.state });
-    setShowForm(true);
-  }, [editing]);
-
   const save = useMutation({
     mutationFn: () => editing
       ? apiPatch<Client>(`/clients/${editing.id}`, { ...form, archived: editing.archived } satisfies ClientUpdate)
@@ -40,11 +34,17 @@ export default function MvpClients() {
     onSuccess: async (client) => { await queryClient.invalidateQueries({ queryKey: workspaceKey }); setFeedback(`${client.business_name} ${client.archived ? "archived" : "restored"}.`); },
   });
 
-  const clients = useMemo(() => (workspace.data?.clients ?? []).filter((client) => {
+  const clients = (workspace.data?.clients ?? []).filter((client) => {
     if (!showArchived && client.archived) return false;
     const haystack = `${client.business_name} ${client.contact_name} ${client.email ?? ""} ${client.gstin}`.toLowerCase();
     return haystack.includes(search.toLowerCase());
-  }), [workspace.data?.clients, search, showArchived]);
+  });
+
+  const startEdit = (client: Client) => {
+    setEditing(client);
+    setForm({ business_name: client.business_name, gstin: client.gstin, contact_name: client.contact_name, email: client.email, phone: client.phone, address: client.address, state: client.state });
+    setShowForm(true);
+  };
 
   return <><AppShell title="Clients"><></></AppShell><AppContent title="Clients" eyebrow="Persistent agency records" action={<button onClick={() => { setEditing(null); setForm(emptyForm); setShowForm(true); }} className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-slate-950 px-4 text-sm font-bold text-white sm:w-auto" data-testid="client-btn-add"><Plus className="size-4" />Add client</button>}>
     <div className="mb-5 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3 text-xs leading-5 text-blue-800" data-testid="client-storage-notice"><strong>Persistent workspace:</strong> client records are stored in MongoDB and scoped to your signed-in account. Existing browser demo data remains untouched and is not imported.</div>
@@ -53,7 +53,7 @@ export default function MvpClients() {
     <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"><div className="flex flex-col gap-3 sm:flex-row"><div className="relative flex-1"><Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-400" /><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search clients…" className="h-11 w-full rounded-xl border border-slate-200 pl-9 pr-3" data-testid="client-search-input" /></div><button onClick={() => setShowArchived(!showArchived)} className="min-h-11 rounded-xl border border-slate-200 px-4 text-sm font-bold text-slate-600" data-testid="client-archived-toggle">{showArchived ? "Hide archived" : "Show archived"}</button><div className="flex min-h-11 items-center gap-2 rounded-xl bg-slate-50 px-4 text-sm font-semibold text-slate-500" data-testid="client-count"><Users className="size-4" />{workspace.data?.summary.client_count ?? 0} active</div></div>
       {workspace.isPending && <div className="p-10 text-center text-sm text-slate-500" data-testid="client-loading-state">Loading your clients…</div>}
       {workspace.isError && <div className="p-10 text-center" data-testid="client-error-state"><p className="font-bold text-rose-700">Clients could not be loaded.</p><button onClick={() => workspace.refetch()} className="mt-4 min-h-11 rounded-xl border px-4 text-sm font-bold" data-testid="client-retry-button">Retry</button></div>}
-      {!workspace.isPending && !workspace.isError && <div className="mt-6 grid gap-3">{clients.map((client) => <article key={client.id} className={`rounded-2xl border p-5 ${client.archived ? "border-slate-200 bg-slate-50 opacity-75" : "border-slate-100"}`} data-testid={`client-row-${client.id}`}><div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between"><div className="flex gap-3"><span className="grid size-10 place-items-center rounded-xl bg-blue-50 text-blue-600"><Building2 className="size-5" /></span><div><h3 className="font-heading font-bold" data-testid={`client-name-${client.id}`}>{client.business_name}</h3><p className="mt-1 text-sm text-slate-500">{client.contact_name || "No contact name"} {client.state ? `· ${client.state}` : ""}</p></div></div><div className="sm:text-right"><p className="text-xs uppercase tracking-wider text-slate-400">Outstanding</p><p className="mt-1 font-mono font-bold" data-testid={`client-balance-${client.id}`}>{formatINR(client.balance)}</p><p className="mt-1 text-xs text-slate-400">{client.invoice_count} invoices</p></div></div><div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-3 border-t border-slate-100 pt-4 text-xs text-slate-500">{client.email && <span className="flex items-center gap-1.5"><Mail className="size-3.5" />{client.email}</span>}{client.phone && <span className="flex items-center gap-1.5"><Phone className="size-3.5" />{client.phone}</span>}{client.gstin && <span className="flex items-center gap-1.5 font-mono"><MapPin className="size-3.5" />{client.gstin}</span>}<div className="ml-auto flex gap-2"><button onClick={() => setEditing(client)} className="inline-flex min-h-10 items-center gap-1 rounded-lg bg-blue-50 px-3 font-bold text-blue-700" data-testid={`client-edit-${client.id}`}><Pencil className="size-3.5" />Edit</button><button onClick={() => archive.mutate(client)} className="inline-flex min-h-10 items-center gap-1 rounded-lg bg-slate-100 px-3 font-bold text-slate-600" data-testid={`client-archive-${client.id}`}><Archive className="size-3.5" />{client.archived ? "Restore" : "Archive"}</button></div></div></article>)}{clients.length === 0 && <div className="p-10 text-center" data-testid="client-empty-state"><Building2 className="mx-auto size-10 text-slate-300" /><p className="mt-4 font-heading font-bold">No clients yet.</p><p className="mt-2 text-sm text-slate-500">Create your first persistent client to start invoicing.</p></div>}</div>}
+      {!workspace.isPending && !workspace.isError && <div className="mt-6 grid gap-3">{clients.map((client) => <article key={client.id} className={`rounded-2xl border p-5 ${client.archived ? "border-slate-200 bg-slate-50 opacity-75" : "border-slate-100"}`} data-testid={`client-row-${client.id}`}><div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between"><div className="flex gap-3"><span className="grid size-10 place-items-center rounded-xl bg-blue-50 text-blue-600"><Building2 className="size-5" /></span><div><h3 className="font-heading font-bold" data-testid={`client-name-${client.id}`}>{client.business_name}</h3><p className="mt-1 text-sm text-slate-500">{client.contact_name || "No contact name"} {client.state ? `· ${client.state}` : ""}</p></div></div><div className="sm:text-right"><p className="text-xs uppercase tracking-wider text-slate-400">Outstanding</p><p className="mt-1 font-mono font-bold" data-testid={`client-balance-${client.id}`}>{formatINR(client.balance)}</p><p className="mt-1 text-xs text-slate-400">{client.invoice_count} invoices</p></div></div><div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-3 border-t border-slate-100 pt-4 text-xs text-slate-500">{client.email && <span className="flex items-center gap-1.5"><Mail className="size-3.5" />{client.email}</span>}{client.phone && <span className="flex items-center gap-1.5"><Phone className="size-3.5" />{client.phone}</span>}{client.gstin && <span className="flex items-center gap-1.5 font-mono"><MapPin className="size-3.5" />{client.gstin}</span>}<div className="ml-auto flex gap-2"><button onClick={() => startEdit(client)} className="inline-flex min-h-10 items-center gap-1 rounded-lg bg-blue-50 px-3 font-bold text-blue-700" data-testid={`client-edit-${client.id}`}><Pencil className="size-3.5" />Edit</button><button onClick={() => archive.mutate(client)} className="inline-flex min-h-10 items-center gap-1 rounded-lg bg-slate-100 px-3 font-bold text-slate-600" data-testid={`client-archive-${client.id}`}><Archive className="size-3.5" />{client.archived ? "Restore" : "Archive"}</button></div></div></article>)}{clients.length === 0 && <div className="p-10 text-center" data-testid="client-empty-state"><Building2 className="mx-auto size-10 text-slate-300" /><p className="mt-4 font-heading font-bold">No clients yet.</p><p className="mt-2 text-sm text-slate-500">Create your first persistent client to start invoicing.</p></div>}</div>}
     </section>
   </AppContent></>;
 }

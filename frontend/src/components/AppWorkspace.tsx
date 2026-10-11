@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { useState } from "react";
-import { Show, useClerk, useUser } from "@clerk/react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useClerk, useUser } from "@clerk/react";
+import { NavLink, useNavigate } from "react-router-dom";
 import { BarChart3, Bell, ChevronRight, CircleHelp, CreditCard, FileText, Home, LogOut, Menu, Plus, Repeat2, Settings, Users, X } from "lucide-react";
 import { Logo } from "@/components/PublicChrome";
 import { queryClient } from "@/lib/queryClient";
