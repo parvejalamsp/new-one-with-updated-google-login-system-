@@ -1,0 +1,78 @@
+{
+  "passed": 9,
+  "failed": 0,
+  "flaky": 0,
+  "blocked": 0,
+  "test_error": 0,
+  "bugs": [],
+  "action_items": [
+    "Backend suite has no tests; all business flows are local-first per spec. The probed /api/health path returns 404 because the existing FastAPI status endpoint is a skeleton and is not used by these flows.",
+    "Authentication, support, exports, payments, and email integrations remain MOCKED local/demo interactions as documented in the briefing."
+  ],
+  "retest_needed": false,
+  "checks": [
+    {
+      "criterion": "Public marketing experience is available at / with collectFlow branding and navigation to features, pricing, calculator, FAQ, login, and signup",
+      "name": "public-marketing-navigation",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Homepage rendered collectFlow branding; navigation reached /pricing, /calculator, /faq, and /login without blank/error state."
+    },
+    {
+      "criterion": "GST and overdue calculators work interactively",
+      "name": "calculators-update-and-route",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Changing GST amount/mode and overdue days changed output values; Generate invoice routed to /login. Executed through public preview URL."
+    },
+    {
+      "criterion": "Pricing and FAQ pages provide the requested interactions",
+      "name": "pricing-faq-interactions",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Annual toggle changed pricing, invoice-volume slider changed recommendation, FAQ search filtered, and Contact support displayed Message queued."
+    },
+    {
+      "criterion": "Demo signup/login enters the billing workspace",
+      "name": "demo-login-dashboard",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "One-click demo login reached /app with Good morning, Arjun, revenue chart, and Recent invoices."
+    },
+    {
+      "criterion": "Invoice management supports the core create/search/filter/print/delete flow",
+      "name": "invoice-create-search-filter-actions",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Seeded invoice visible; search and status filter operated; new draft saved and appeared with Zomatech Logistics Pvt Ltd and ₹12,345; export control visible."
+    },
+    {
+      "criterion": "Client CRM and recurring billing support local changes",
+      "name": "clients-add-gstin",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Added tscheck-client with GSTIN 27TSCHK1234F1Z5 and both values appeared in the client list."
+    },
+    {
+      "criterion": "Client CRM and recurring billing support local changes",
+      "name": "recurring-create-pause-resume",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Created a ₹7,777 recurring schedule, toggled it to Resume/Paused state, then toggled it back to Pause/Active."
+    },
+    {
+      "criterion": "Reports and settings are usable",
+      "name": "reports-settings-save-theme",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Reports trend rendered, period and export controls operated; settings business name/theme changed and save success appeared."
+    },
+    {
+      "criterion": "Responsive shell and session flow are usable",
+      "name": "responsive-shell-signout",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "At 390x844 mobile viewport, public menu opened, demo login reached app, dashboard menu opened, and Sign out returned to /."
+    }
+  ]
+}

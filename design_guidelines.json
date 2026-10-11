@@ -1,0 +1,356 @@
+{
+  "brand_identity": {
+    "name": "collectFlow",
+    "former_name": "BillNest",
+    "tagline": "Invoice & Billing Made Simple",
+    "hero_headline": "Manage Invoices, Customers & Payments in One Place",
+    "subheadline": "collectFlow helps Indian businesses and modern freelancers create GST-compliant invoices, track payments, automate recurring billing, and grow revenue — all from a beautiful, modern dashboard.",
+    "positioning": "High-craft, GST-ready financial workflow and invoicing SaaS platform designed for Indian businesses, agencies, freelancers, and growing enterprises."
+  },
+  "typography": {
+    "font_pairing_archetype": "The Old Money Tech & Modern Craft (Plus Jakarta Sans + Instrument Sans / IBM Plex Mono for figures)",
+    "headline_font": "Plus Jakarta Sans, var(--font-plus-jakarta-sans), sans-serif",
+    "body_font": "Instrument Sans, var(--font-instrument-sans), sans-serif",
+    "mono_font": "JetBrains Mono, var(--font-jetbrains-mono), monospace",
+    "scale": {
+      "h1_hero": "text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1]",
+      "h2_section": "text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-slate-900 dark:text-white",
+      "h3_subsection": "text-xl sm:text-2xl font-semibold tracking-tight text-slate-900 dark:text-slate-100",
+      "h4_card": "text-lg sm:text-xl font-semibold tracking-tight",
+      "body": "text-base leading-relaxed text-slate-600 dark:text-slate-400",
+      "body_small": "text-sm text-slate-500 dark:text-slate-400",
+      "caption_badge": "text-xs font-semibold uppercase tracking-[0.2em]"
+    },
+    "guidelines": "Never use Inter for headings. Use Plus Jakarta Sans font with tight tracking (-0.02em to -0.04em) and IBM Plex Mono or JetBrains Mono for invoice numbers (e.g., INV-2026-0891), amounts (₹1,49,500), and GSTIN identifiers."
+  },
+  "color_system": {
+    "archetype": "Grounded Indian FinTech Craft — Deep Obsidian, Indigo Sapphire & Emerald Settlement",
+    "modes": {
+      "light": {
+        "background": "#F8FAFC",
+        "surface": "#FFFFFF",
+        "surface_muted": "#F1F5F9",
+        "border": "#E2E8F0",
+        "border_subtle": "#EEF2F6",
+        "text_primary": "#0F172A",
+        "text_secondary": "#475569",
+        "text_muted": "#64748B",
+        "primary": "#2563EB",
+        "primary_hover": "#1D4ED8",
+        "primary_active": "#1E40AF",
+        "primary_glow": "rgba(37, 99, 235, 0.12)",
+        "accent_emerald": "#059669",
+        "accent_amber": "#D97706",
+        "accent_rose": "#E11D48"
+      },
+      "dark": {
+        "background": "#090D16",
+        "surface": "#0F172A",
+        "surface_muted": "#1E293B",
+        "border": "#1E293B",
+        "border_subtle": "#334155",
+        "text_primary": "#F8FAFC",
+        "text_secondary": "#94A3B8",
+        "text_muted": "#64748B",
+        "primary": "#3B82F6",
+        "primary_hover": "#60A5FA",
+        "primary_active": "#2563EB",
+        "primary_glow": "rgba(59, 130, 246, 0.22)",
+        "accent_emerald": "#10B981",
+        "accent_amber": "#F59E0B",
+        "accent_rose": "#F43F5E"
+      }
+    },
+    "rules": [
+      "Never use pure black #000000 or pure gray #808080. Always tint dark backgrounds with cool slate or deep indigo (#090D16 / #0F172A).",
+      "Do NOT use complete transparent backgrounds on headers, dropdowns, modals, or sheets. Always combine backdrop-blur with opaque tint (e.g., bg-white/85 or bg-slate-950/85).",
+      "Always explicitly set hover text color on interactive buttons and navigation links.",
+      "GST badges and Paid states use Emerald accents with subtle borders (#059669/10% bg, #059669 text)."
+    ]
+  },
+  "layout_and_spacing": {
+    "grid_modes": {
+      "marketing": "Mode A Tetris / Swiss Grid with generous spacing (py-20 to py-28, gap-8 to gap-12)",
+      "dashboard": "Mode B High Density Grid (gap-4 to gap-6) with strict alignment and matching heights (h-full)"
+    },
+    "containers": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+    "surface_treatment": "Crystal glassmorphic floating top navbar with 1px border-slate-200/60 dark:border-slate-800/80 and backdrop-blur-xl",
+    "bento_features": "3-column asymmetric layout with dominant interactive GST preview card, dynamic live tax toggle, and real-time live currency conversion (INR/USD/EUR/AED)."
+  },
+  "page_and_feature_specs": {
+    "public_routes": {
+      "homepage": {
+        "path": "/",
+        "sections": [
+          "Announcement pill badge: 'collectFlow 2.0: Instant GST E-Invoicing & Automated WhatsApp Payment Reminders'",
+          "Hero section with H1 'Manage Invoices, Customers & Payments in One Place', live interactive invoice builder preview mockup, CTA 'Start Free' + 'View Pricing' + 'Try Live Interactive Demo'",
+          "Trust metrics strip: '₹45+ Crores Invoiced', '12,500+ Indian Businesses', '99.98% GST E-way compliance', 'Razorpay & UPI Instant Settlement'",
+          "Feature Grid (Everything you need to bill smarter): 6 pillars (Smart Invoicing with HSN/SAC & GST, Customer CRM with GSTIN verification, Payment Gateway with test Razorpay & UPI QR, Real-Time Analytics & Cash Flow, Secure Auth with OTP demo, Lightning Fast Next-gen stack)",
+          "Interactive GST & Fee Calculator: Allows users to input item value, select GST slab (0%, 5%, 12%, 18%, 28%), choose IGST vs CGST+SGST, calculate payment gateway charges, and instant invoice total",
+          "Interactive Live Invoice Previewer: Modify invoice items in real time right on the homepage and export or print preview",
+          "Pricing section preview: 4 transparent tiers (Free ₹0, Starter ₹499/mo, Professional ₹999/mo [Most Popular], Business ₹1,999/mo)",
+          "Comparison Table: collectFlow vs Traditional Tally / Excel vs Generic international invoice tools",
+          "Comprehensive FAQ accordion: 6+ questions addressing GST compliance, Razorpay test mode, PDF export, multi-currency, data backup, and cancellation",
+          "High-impact CTA conversion banner with ready to simplify billing and instant free signup",
+          "Comprehensive Footer with collectFlow brand, product links, Indian GST legal resources, currency switchers, and copyright notices"
+        ]
+      },
+      "pricing_page": {
+        "path": "/pricing",
+        "features": [
+          "Monthly vs Annual toggle (with 20% discount badge)",
+          "4 distinct tiers matching billnest with enhanced badges and feature breakdowns",
+          "Interactive 'Plan Recommendation' quiz/slider based on monthly invoice volume",
+          "Feature comparison matrix with checkmarks and tooltips",
+          "Money-back guarantee and Test Mode badge banner"
+        ]
+      },
+      "calculator_page": {
+        "path": "/calculator",
+        "features": [
+          "Standalone GST & TDS Tax Calculator with reverse GST computation (inclusive vs exclusive)",
+          "Overdue Interest Calculator (MSME 45-day prompt payment rule compliant at 3x RBI bank rate)",
+          "One-click 'Generate Invoice with this Calculation' routing into the invoice creator"
+        ]
+      },
+      "faq_page": {
+        "path": "/faq",
+        "features": [
+          "Categorized FAQs (Getting Started, GST & Invoicing, Payments & Razorpay, Security & Exports)",
+          "Live search filter bar for instant question filtering",
+          "Contact support CTA ticket form"
+        ]
+      },
+      "auth_pages": {
+        "login": {
+          "path": "/login",
+          "features": [
+            "Demo 1-Click Login buttons ('Login as Demo Freelancer' or 'Login as Enterprise Admin')",
+            "Standard email + password inputs with remember me and forgot password flow",
+            "Mock OTP verification tab simulation (receive instant code 749210)",
+            "Visual preview of collectFlow dashboard on the side column"
+          ]
+        },
+        "signup": {
+          "path": "/signup",
+          "features": [
+            "Company name, GSTIN (optional with validation format test), email, password",
+            "Instant account creation with local state persistence into sessionStorage/localStorage"
+          ]
+        },
+        "forgot_password": {
+          "path": "/forgot-password",
+          "features": ["Email password reset simulator with instant success toast alert"]
+        }
+      }
+    },
+    "app_dashboard_routes": {
+      "dashboard_overview": {
+        "path": "/app",
+        "widgets": [
+          "KPI Stat Cards: Total Revenue (₹14,82,450), Paid Invoices (142), Pending Dues (₹2,18,300), Overdue (₹34,000) with trend percentages",
+          "Interactive Revenue & Cashflow Bar/Area Chart (Recharts) with timeframe filter (7D, 30D, 90D, 1Y)",
+          "Recent Invoices table with live status badges (Paid, Pending, Overdue, Draft) and quick actions (View, PDF, Mark Paid, Send WhatsApp/Email)",
+          "Quick Action FAB / buttons: '+ New Invoice', '+ Add Client', '+ Record Payment'",
+          "GST Tax Liability breakdown widget (CGST, SGST, IGST collected)"
+        ]
+      },
+      "invoices_management": {
+        "path": "/app/invoices",
+        "features": [
+          "Search & Filter by status, client, date range, or amount",
+          "Full Invoice Builder modal/page: Client selector, invoice date, due date, item line items (Item, HSN/SAC code, quantity, rate, discount, GST % tax), notes, terms",
+          "Real-time totals calculation with subtotal, tax breakdown, total in words (Indian numbering format Lakhs/Crores)",
+          "Printable & downloadable clean GST PDF layout preview with UPI QR code placeholder for payments",
+          "Bulk actions: Export CSV, Mark as Sent, Delete"
+        ]
+      },
+      "clients_crm": {
+        "path": "/app/clients",
+        "features": [
+          "Client list with company name, contact person, email, phone, GSTIN, city/state, and total billing volume",
+          "Add/Edit Client dialog with auto-state detector from GSTIN prefix (e.g. 27=Maharashtra, 07=Delhi, 29=Karnataka)",
+          "Client detail drawer showing invoice history and outstanding balance"
+        ]
+      },
+      "recurring_billing": {
+        "path": "/app/recurring",
+        "features": [
+          "Subscriptions and retainer agreements",
+          "Frequency selector: Monthly, Quarterly, Annually",
+          "Next bill date, automated reminder toggle, and active/paused switcher"
+        ]
+      },
+      "reports_and_gst": {
+        "path": "/app/reports",
+        "features": [
+          "GSTR-1 Summary export preview (B2B invoices, B2CS invoices, HSN summary)",
+          "Monthly sales trends and client revenue distribution chart",
+          "CSV and JSON export simulations"
+        ]
+      },
+      "settings": {
+        "path": "/app/settings",
+        "features": [
+          "Business Profile: Business Name, Logo, GSTIN, PAN, Address, Bank Account details, UPI ID",
+          "Invoice Customization: Prefix (e.g., CF-), starting number, default payment terms, footer signature",
+          "Payment Gateway: Razorpay Test Mode keys (Mock toggle: active / inactive), Webhook URL simulator",
+          "Theme toggle: Dark / Light mode toggle"
+        ]
+      }
+    }
+  },
+  "data_attributes_and_testing": {
+    "protocol": "All interactive elements and key data indicators MUST have strict kebab-case data-testid attributes.",
+    "required_testids": [
+      "navbar-brand-logo",
+      "navbar-link-features",
+      "navbar-link-pricing",
+      "navbar-link-calculator",
+      "navbar-link-faq",
+      "navbar-btn-login",
+      "navbar-btn-signup",
+      "navbar-btn-dashboard",
+      "hero-btn-start-free",
+      "hero-btn-view-pricing",
+      "hero-btn-demo-tour",
+      "calculator-input-amount",
+      "calculator-select-gst-rate",
+      "calculator-output-tax",
+      "calculator-output-total",
+      "pricing-billing-toggle",
+      "pricing-plan-free-cta",
+      "pricing-plan-starter-cta",
+      "pricing-plan-pro-cta",
+      "pricing-plan-business-cta",
+      "login-input-email",
+      "login-input-password",
+      "login-submit-button",
+      "login-demo-user-button",
+      "signup-input-name",
+      "signup-input-email",
+      "signup-input-password",
+      "signup-submit-button",
+      "dashboard-nav-invoices",
+      "dashboard-nav-clients",
+      "dashboard-nav-recurring",
+      "dashboard-nav-reports",
+      "dashboard-nav-settings",
+      "dashboard-btn-new-invoice",
+      "invoice-input-client",
+      "invoice-input-amount",
+      "invoice-btn-save",
+      "invoice-btn-print",
+      "client-btn-add",
+      "client-input-gstin"
+    ]
+  },
+  "image_urls": [
+    {
+      "url": "https://images.unsplash.com/photo-1487017159836-4e23ece2e4cf?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NDh8MHwxfHNlYXJjaHwyfHxidXNpbmVzcyUyMG9mZmljZSUyMGRlc2t8ZW58MHx8fHwxNzkxNzE1MTIwfDA&ixlib=rb-4.1.0&q=85",
+      "category": "hero_workspace",
+      "description": "Minimal clean desk with laptop and workspace, used for hero visual background and feature context"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1627719172031-ab42dc849bc3?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2ODh8MHwxfHNlYXJjaHwzfHxmaW50ZWNoJTIwaW52b2ljZSUyMGFwcHxlbnwwfHx8fDE3OTE3MTUxMjN8MA&ixlib=rb-4.1.0&q=85",
+      "category": "mobile_invoice_app",
+      "description": "Fintech payment and mobile invoice app on smartphone, used in mobile billing section"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1604177091072-b7b677a077f6?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1ODB8MHwxfHNlYXJjaHwyfHxpbmRpYW4lMjBlbnRyZXByZW5ldXJ8ZW58MHx8fHwxNzkxNzE1MTIwfDA&ixlib=rb-4.1.0&q=85",
+      "category": "testimonial_founder",
+      "description": "Indian modern digital entrepreneur and founder portrait for customer story testimonial"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1694871420416-9feeb629dda4?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1ODB8MHwxfHNlYXJjaHwxfHxpbmRpYW4lMjBlbnRyZXByZW5ldXJ8ZW58MHx8fHwxNzkxNzE1MTIwfDA&ixlib=rb-4.1.0&q=85",
+      "category": "testimonial_agency_owner",
+      "description": "Indian creative agency owner testimonial photo"
+    }
+  ],
+  "mock_data_and_state": {
+    "persistence_layer": "localStorage with initial preloaded seed data for instant zero-config full functionality",
+    "seed_clients": [
+      {
+        "id": "cli_1",
+        "name": "Zomatech Logistics Pvt Ltd",
+        "contact": "Aarav Sharma",
+        "email": "billing@zomatech.in",
+        "phone": "+91 98201 44321",
+        "gstin": "27AAACZ1234F1Z5",
+        "state": "Maharashtra",
+        "balance": 0
+      },
+      {
+        "id": "cli_2",
+        "name": "Kaveri Studio & Design",
+        "contact": "Priya Sundaram",
+        "email": "priya@kaveristudio.com",
+        "phone": "+91 98450 11299",
+        "gstin": "29AABCK9988D1Z2",
+        "state": "Karnataka",
+        "balance": 48500
+      },
+      {
+        "id": "cli_3",
+        "name": "BlueRidge Cloud Labs",
+        "contact": "Rohan Verma",
+        "email": "finance@blueridge.io",
+        "phone": "+91 99100 88210",
+        "gstin": "07AAAAA0000A1Z5",
+        "state": "Delhi",
+        "balance": 125000
+      }
+    ],
+    "seed_invoices": [
+      {
+        "id": "INV-2026-001",
+        "clientId": "cli_1",
+        "clientName": "Zomatech Logistics Pvt Ltd",
+        "date": "2026-07-01",
+        "dueDate": "2026-07-15",
+        "amount": 147500,
+        "tax": 22500,
+        "status": "Paid",
+        "items": [
+          { "description": "Cloud Billing Automation Infrastructure", "hsn": "998314", "quantity": 1, "rate": 125000, "gst": 18 }
+        ]
+      },
+      {
+        "id": "INV-2026-002",
+        "clientId": "cli_2",
+        "clientName": "Kaveri Studio & Design",
+        "date": "2026-07-08",
+        "dueDate": "2026-07-22",
+        "amount": 48500,
+        "tax": 7398,
+        "status": "Pending",
+        "items": [
+          { "description": "UI/UX Design Retainer - July 2026", "hsn": "998391", "quantity": 1, "rate": 41102, "gst": 18 }
+        ]
+      },
+      {
+        "id": "INV-2026-003",
+        "clientId": "cli_3",
+        "clientName": "BlueRidge Cloud Labs",
+        "date": "2026-06-15",
+        "dueDate": "2026-06-30",
+        "amount": 125000,
+        "tax": 19068,
+        "status": "Overdue",
+        "items": [
+          { "description": "Annual ERP API Integration License", "hsn": "997331", "quantity": 1, "rate": 105932, "gst": 18 }
+        ]
+      }
+    ]
+  },
+  "instructions_to_main_agent": [
+    "CLONE ALL VISIBLE FEATURES & BRANDING FROM BILLNEST TO COLLECTFLOW: Replace 'BillNest' everywhere with 'collectFlow'. Keep the core identity (Indian business invoicing, GST compliance, Razorpay test mode integration, PDF export, customer CRM, analytics).",
+    "HYBRID ARCHITECTURE: Build the full marketing public site (Home, Pricing, GST Calculator, FAQ, Contact modal) AND the complete logged-in SaaS billing app (/app, /app/invoices, /app/clients, /app/recurring, /app/reports, /app/settings).",
+    "DEMO-READY ZERO CREDENTIALS UX: Provide a 1-click 'Demo Quick Login' on /login so evaluators can instantly jump into the rich logged-in billing application without registering or needing external OTP servers.",
+    "REAL WORKING CALCULATORS: On the landing page and dedicated calculator section, provide an interactive GST Tax Calculator (with 0%, 5%, 12%, 18%, 28% slabs, CGST/SGST vs IGST split toggle, and payment gateway charge deduction) and live Invoice Builder preview that dynamically recalculates totals.",
+    "INVOICE PDF EXPORT / PRINT PREVIEW: Provide a clean, authentic Indian GST Tax Invoice printable template preview with HSN/SAC breakdown, Bank Account details, UPI QR code placeholder, and 'Download / Print' trigger.",
+    "NO DEFAULT 'AI SLOP' OR VERCEL TEMPLATE FEEL: Use Plus Jakarta Sans for titles with tight tracking, Instrument Sans for body, JetBrains Mono for monetary values and invoice codes. Apply crystal glassmorphism for navbars and tactile subtle borders for cards.",
+    "LOCAL STATE PERSISTENCE: Preload the application with realistic Indian corporate seed data in localStorage so creating, editing, and deleting invoices/clients behaves seamlessly and persists across page reloads.",
+    "EVERY INTERACTIVE ELEMENT MUST HAVE data-testid attributes matching the testing protocol specs."
+  ]
+}
