@@ -41,10 +41,22 @@ export interface RecurringBill {
   status: "Active" | "Paused";
 }
 
+export interface FollowUp {
+  id: string;
+  invoiceId: string;
+  clientId: string;
+  note: string;
+  dueDate: string;
+  status: "Planned" | "Completed";
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface DemoState {
   invoices: Invoice[];
   clients: Client[];
   recurring: RecurringBill[];
+  followUps: FollowUp[];
 }
 
 export const DEMO_TODAY = "2026-07-14";
@@ -66,6 +78,11 @@ const seedState: DemoState = {
     { id: "sub_2", client: "BlueRidge Cloud Labs", plan: "API integration license", amount: 125000, frequency: "Annually", nextBill: "Jun 15, 2027", status: "Active" },
     { id: "sub_3", client: "Northstar Retail", plan: "Growth support", amount: 18000, frequency: "Quarterly", nextBill: "Sep 01, 2026", status: "Paused" },
   ],
+  followUps: [
+    { id: "follow_1", invoiceId: "INV-2026-003", clientId: "cli_3", note: "Review the overdue balance with the finance contact.", dueDate: "2026-07-15", status: "Planned", createdAt: "2026-07-12", updatedAt: "2026-07-12" },
+    { id: "follow_2", invoiceId: "INV-2026-002", clientId: "cli_2", note: "Confirm that the invoice reached the accounts team.", dueDate: "2026-07-18", status: "Planned", createdAt: "2026-07-10", updatedAt: "2026-07-10" },
+    { id: "follow_3", invoiceId: "INV-2026-003", clientId: "cli_3", note: "Prepared a call summary for the account owner.", dueDate: "2026-07-10", status: "Completed", createdAt: "2026-07-09", updatedAt: "2026-07-10" },
+  ],
 };
 
 function migrateState(saved: DemoState): DemoState {
@@ -76,29 +93,56 @@ function migrateState(saved: DemoState): DemoState {
     return invoice;
   });
   if (!invoices.some((invoice) => invoice.status === "Pending")) invoices.push(seedState.invoices[3]);
-  return { ...saved, invoices };
+  return { ...saved, invoices, followUps: Array.isArray(saved.followUps) ? saved.followUps : seedState.followUps };
+}
+
+let activeDemoOwner = "anonymous";
+let lastReadIssue: "unavailable" | "partial" | null = null;
+
+export function setDemoOwner(ownerId: string) {
+  activeDemoOwner = ownerId || "anonymous";
+}
+
+function storageKey() {
+  return `collectflow-demo-state:${activeDemoOwner}`;
+}
+
+function cloneSeed(): DemoState {
+  return JSON.parse(JSON.stringify(seedState)) as DemoState;
 }
 
 export function readDemoState(): DemoState {
   try {
-    const saved = localStorage.getItem("collectflow-demo-state");
+    lastReadIssue = null;
+    const saved = localStorage.getItem(storageKey());
     if (saved) {
       const parsed = JSON.parse(saved) as DemoState;
-      if (localStorage.getItem("collectflow-demo-schema") === "2") return parsed;
+      if (!Array.isArray(parsed.invoices) || !Array.isArray(parsed.clients) || !Array.isArray(parsed.recurring)) throw new Error("Incomplete demo payload");
+      if (parsed.invoices.some((invoice) => !invoice.id || !invoice.clientId || !invoice.dueDate)) lastReadIssue = "partial";
+      if (Array.isArray(parsed.followUps)) return parsed;
       const migrated = migrateState(parsed);
-      localStorage.setItem("collectflow-demo-state", JSON.stringify(migrated));
-      localStorage.setItem("collectflow-demo-schema", "2");
+      localStorage.setItem(storageKey(), JSON.stringify(migrated));
       return migrated;
     }
   } catch {
-    // A private browser or malformed demo payload should still get a usable app.
+    lastReadIssue = "unavailable";
   }
-  return seedState;
+  return cloneSeed();
 }
 
 export function writeDemoState(state: DemoState) {
-  localStorage.setItem("collectflow-demo-state", JSON.stringify(state));
-  localStorage.setItem("collectflow-demo-schema", "2");
+  localStorage.setItem(storageKey(), JSON.stringify(state));
+  lastReadIssue = null;
+}
+
+export function resetDemoState() {
+  const next = cloneSeed();
+  writeDemoState(next);
+  return next;
+}
+
+export function getDemoReadIssue() {
+  return lastReadIssue;
 }
 
 export function formatINR(value: number) {
@@ -117,5 +161,3 @@ export function nextCollectionAction(status: InvoiceStatus) {
   if (status === "Draft") return "Continue draft";
   return "View receipt";
 }
-
-export const isDemoLoggedIn = () => localStorage.getItem("collectflow-session") === "demo";

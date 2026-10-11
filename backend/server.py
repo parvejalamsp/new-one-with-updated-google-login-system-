@@ -10,6 +10,7 @@ from pydantic import BaseModel, Field
 from typing import List
 import uuid
 from datetime import datetime
+from clerk_auth import clerk_router
 
 
 ROOT_DIR = Path(__file__).parent
@@ -60,9 +61,6 @@ async def get_status_checks():
     status_checks = await db.status_checks.find().to_list(1000)
     return [StatusCheck(**status_check) for status_check in status_checks]
 
-# Include the router in the main app
-app.include_router(api_router)
-
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
@@ -77,3 +75,7 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
+
+# Fold every route into the shared /api router before mounting it once.
+api_router.include_router(clerk_router)
+app.include_router(api_router)

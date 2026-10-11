@@ -1,13 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight, ArrowUpRight, BarChart3, CalendarClock, CreditCard, FileText, Plus, ReceiptIndianRupee, Users } from "lucide-react";
 import { AppContent, AppShell, Metric, QuickAction, StatusPill, formatINR } from "@/components/collectflow";
-import { isDemoLoggedIn, nextCollectionAction, readDemoState } from "@/lib/demo";
+import { nextCollectionAction, readDemoState } from "@/lib/demo";
 
 export default function Dashboard() {
   const navigate = useNavigate();
   const [state] = useState(readDemoState);
-  useEffect(() => { if (!isDemoLoggedIn()) navigate("/login"); }, [navigate]);
   const total = state.invoices.reduce((sum, invoice) => sum + invoice.amount, 0);
   const paidCount = state.invoices.filter((invoice) => invoice.status === "Paid").length;
   const dueSoon = state.invoices.filter((invoice) => invoice.status === "Due soon").reduce((sum, invoice) => sum + invoice.amount, 0);

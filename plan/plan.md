@@ -1,74 +1,92 @@
-# collectFlow Improvement Plan
+# collectFlow Collection Workflow and Google Sign-In Plan
 
-collectFlow is an invoicing and payment-follow-up workspace for small Indian agencies managing many client accounts.
-It combines a clear public product site with a practical demo workspace for seeing what is due and deciding what to do next.
+collectFlow is an invoice and payment-follow-up workspace for agencies managing multiple client accounts.
+This release turns the current demo into a more useful client-first collection experience and replaces mock login with Emergent-managed Google sign-in, while keeping financial actions and business data local and demonstrative.
 
-## Who it’s for
+## Who it's for
 
-- Small agencies, studios, consultants, and service businesses in India
-- Owners and finance operators who manage invoices for multiple clients
-- Teams that need a quick view of paid, pending, due-soon, and overdue work without adding real payment side effects
+- Agencies, studios, consultants, and service businesses that manage unpaid invoices across multiple clients.
+- Owners and finance operators who need to understand client-level exposure and decide the next collection action.
+- Prospective users evaluating collectFlow through a safe demo workspace without real payments, reminders, or shared production records.
 
 ## Core features and experience
 
-- Preserve the existing collectFlow visual identity, public pages, demo login, calculators, pricing, FAQ, and workspace screens
-- Correct invoice-count consistency across the navigation badge, invoice list, and summary cards
-- Correct pricing recommendations so slider values, recommended plans, and stated plan capacities agree
-- Make overdue-interest calculation transparent: editable annual rate, estimate label, formula, assumptions, and source/effective-date fields when known; remove unsupported “current” and legal/tax claims
-- Replace misleading placeholder footer links with lightweight internal About, Security, Contact, Help, GST Resources, API Docs, Terms, and Privacy pages
-- Label landing-page metrics as illustrative demo/sample figures rather than verified business results
-- Improve responsive layouts at 360, 390, 768, 1024, and 1440 px without replacing working screens
-- Make invoice collection more actionable with clearer status distinctions, client/status search and filtering, due-soon visibility, and an obvious next action
-- Clarify new-invoice requirements, validation messages, and live totals while avoiding unverified GST-compliance claims
-- Keep reminder, payment, email, export, and support interactions explicitly in demo/test mode with no external side effects
+- Preserve the existing collectFlow marketing pages, calculators, pricing, FAQ, informational pages, and responsive behavior.
+- Replace the mock login button with real Emergent-managed Google sign-in.
+- Restore active sessions, protect workspace routes, show the signed-in user's identity, and provide a clear sign-out action.
+- Keep public marketing pages accessible without signing in; require Google sign-in to enter the collection workspace.
+- Organize the agency collection queue by client first, with invoices and due dates shown within each client group.
+- Show client rollups for total outstanding, overdue amount, invoice count, and the next recommended action.
+- Improve invoice details with client context, collection state, amounts, dates, and follow-up activity.
+- Let users add, edit, and mark mocked follow-ups complete without sending external messages.
+- Preview invoice documents and collection summaries, then use clearly mocked print and download actions.
+- Provide purposeful empty states and recovery guidance when demo data is empty, filtered out, incomplete, or unavailable.
+- Keep payments, outbound reminders, document delivery, and backend business persistence mocked or local-only.
 
 ## User flow
 
-1. A visitor lands on the public homepage and understands that the visible metrics are demo examples.
-2. The visitor explores pricing, calculators, FAQ, and the internal informational/footer pages.
-3. The user enters the demo workspace through the existing demo login.
-4. The workspace overview highlights consistent invoice totals and the agency’s collection priorities.
-5. The user opens invoices, searches by client or status, filters paid/pending/due-soon/overdue records, and sees the sensible next action for each row.
-6. The user creates a draft invoice, receives clear validation guidance, and sees totals update without creating an external payment or reminder.
-7. The same flows remain usable on narrow mobile screens and balanced on desktop screens.
+1. A visitor explores the public collectFlow site without authentication.
+2. The visitor chooses to enter the workspace and reaches a dedicated Google sign-in screen.
+3. Successful Google sign-in returns the user to the collection workspace; cancelled or failed sign-in shows a clear retry path without bypassing authentication.
+4. A returning user with a valid session goes directly to the workspace instead of signing in again.
+5. The workspace displays client groups with outstanding totals, overdue exposure, invoice counts, due-date signals, and next actions.
+6. The user opens a client group, reviews its invoices, and opens an invoice for full collection context.
+7. The user adds or edits a mocked follow-up and marks it complete when appropriate.
+8. The user previews an invoice or collection summary and invokes a mocked browser print or local download action.
+9. If the demo has no usable data, the interface explains why and offers a safe reset, return, or clear-filter action.
+10. The user signs out from the workspace identity menu and returns to the public experience.
 
 ## UI/UX feel
 
-- Keep the current blue, slate, white, and emerald collectFlow identity, typography, rounded surfaces, and glassy navigation treatment
-- Use compact agency-friendly density in the workspace and generous left-aligned spacing on public pages
-- Favor clear labels and action-oriented status language over decorative claims
-- Preserve touch-friendly controls, readable financial figures, and non-clipped mobile layouts
-- Use “Demo workspace sample” or equivalent labeling wherever seeded figures could be mistaken for verified results
-- Make unavailable or demo-only destinations explicit instead of leaving silent placeholder links
+- Maintain the existing collectFlow visual identity across marketing, authentication, and workspace screens.
+- Present Google sign-in on a dedicated responsive page rather than a cramped modal.
+- Brand the managed sign-in surface to feel consistent with collectFlow while preserving the provider's complete and secure sign-in flow.
+- Keep the Demo Workspace visibly labeled so real identity is not confused with production-grade business persistence.
+- Use client grouping as the queue's dominant structure; due dates and urgency remain supporting prioritization signals.
+- Make outstanding totals, overdue amounts, invoice counts, and next actions quickly scannable.
+- Keep follow-up interactions compact and explicit about being mocked, with concise success and error feedback.
+- Make previews document-like and clearly distinguish preview, print, and download actions.
+- Ensure all primary queue, invoice, follow-up, authentication, and recovery flows remain practical on mobile and desktop.
 
 ## Implementation phases
 
-### Phase 1 — MVP improvements (built now after approval)
+### Phase 1 — Collection workflow MVP and Google sign-in — built now
 
-- Resolve the verified count, pricing recommendation, interest-calculator, footer-link, and metric-label inconsistencies
-- Add the lightweight internal informational pages
-- Improve invoice statuses, filters, search, next-action guidance, and new-invoice clarity
-- Apply responsive fixes to the named public, auth, dashboard, invoice, and form surfaces
-- Verify the requested viewport widths and the main demo flows without entering real customer or payment information
+- Add Emergent-managed Google-only sign-in and replace the existing mock authentication entry points.
+- Protect workspace routes, restore sessions, show signed-in identity, and support sign-out.
+- Add a client-first collection queue with nested invoices and visible due-date and overdue signals.
+- Add client rollups for total outstanding, overdue amount, invoice count, and next action.
+- Improve invoice details with client context and collection activity.
+- Add local demo follow-up history with create, edit, and complete actions.
+- Add invoice and collection-summary previews with mocked print and download behavior.
+- Add empty, filtered, partial-data, and unavailable-demo recovery states.
+- Keep all collection data and side effects local or mocked; no real payment, reminder, or document delivery occurs.
 
-### Phase 2 — Collection workflow refinement
+### Phase 2 — Workflow intelligence and operational refinement — future
 
-- Add a richer agency collection queue with due-date grouping, client-level rollups, and demo follow-up history
-- Improve invoice detail presentation, client context, and print/export previews while keeping all side effects mocked
-- Add more focused empty states and recovery guidance for partial or unavailable demo data
+- Add configurable queue views, saved filters, follow-up scheduling, and richer client-level activity rollups.
+- Add broader export formats, batch preview workflows, and clearer prioritization explanations.
+- Refine cross-device continuity after durable data persistence becomes available.
+- Evaluate optional agency roles and permissions only after access requirements are defined.
 
-### Phase 3 — Future production readiness
+### Phase 3 — Production readiness — future
 
-- Revisit real authentication, payment providers, outbound reminders, and durable multi-user persistence only when credentials, compliance requirements, and product decisions are supplied
-- Replace illustrative metrics and demo-only actions with verified product data and audited claims
+- Move invoice, client, and follow-up data from local storage to durable, account-scoped backend persistence.
+- Enforce authenticated ownership and any approved role permissions on every business-data request.
+- Integrate real payment providers and outbound reminder delivery.
+- Add auditable document generation, operational monitoring, and production recovery behavior.
+- Replace illustrative metrics and recommendations with verified product data and approved business rules.
 
 ## Assumptions
 
-- The current app is improved in place; working screens and existing design primitives are reused rather than replaced.
-- Footer destinations will be lightweight internal pages, not third-party destinations.
-- Existing landing metrics remain visible but are labeled as illustrative demo/sample figures.
-- The overdue-interest calculator defaults to an editable 18% example estimate, with no claim that it is current and no legal or tax advice framing. The user-entered rate is the source of the calculation unless a verified source and effective date are supplied.
-- Existing seeded demo data remains the only data used for development and testing; no real customer, payment, or credential data is entered.
-- Authentication, reminders, payments, exports, support, and backend business persistence remain MOCKED/local demo behavior in this phase.
-- No paid service, public deployment, GitHub push, credit purchase, or plan upgrade is included.
-- Work stays within the stated 90-credit limit; if the complete phase cannot fit, the verified inconsistencies and highest-impact responsive/collection fixes take precedence.
+- Google is the only sign-in method in this release; email/password login is not included.
+- Emergent-managed authentication supplies and manages the required provider configuration, so the user does not need to provide Google or Clerk credentials.
+- No admin or member roles are needed yet; every authenticated user has the same demo-workspace capabilities.
+- Public marketing and informational routes remain available while signed out; workspace routes require a valid session.
+- The current local demo dataset is separated by signed-in account on the same browser where practical, but is not synchronized across devices.
+- Signing out does not delete local demo data; returning with the same account restores that account's local workspace on that browser.
+- Authentication is real, but invoices, clients, follow-ups, exports, payments, and reminders remain demo-only in this phase.
+- Print uses the browser's print experience; download creates a local demo document or export and does not create a server-side record.
+- “Next action” remains an illustrative recommendation derived from demo invoice state, not financial or legal advice.
+- If managed authentication is unavailable, the workspace stays protected and presents retry guidance rather than falling back to mock access.
+- Preview and published authentication environments may have separate user registrations; a preview sign-in does not guarantee an existing production account.

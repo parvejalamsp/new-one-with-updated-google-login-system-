@@ -5,12 +5,15 @@ import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 import App from './App.tsx'
 import { queryClient } from './lib/queryClient'
+import ClerkAuthProvider from './components/auth/ClerkAuthProvider'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <App />
+        <ClerkAuthProvider>
+          <App />
+        </ClerkAuthProvider>
       </BrowserRouter>
     </QueryClientProvider>
   </StrictMode>,
