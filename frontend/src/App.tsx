@@ -12,6 +12,7 @@ import Clients from "@/pages/Clients";
 import Recurring from "@/pages/Recurring";
 import Reports from "@/pages/Reports";
 import Settings from "@/pages/Settings";
+import Information from "@/pages/Information";
 
 // One <Route> per page in src/pages; BrowserRouter already wraps this in main.tsx.
 export default function App() {
@@ -24,6 +25,14 @@ export default function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/about" element={<Information />} />
+      <Route path="/security" element={<Information />} />
+      <Route path="/contact" element={<Information />} />
+      <Route path="/help" element={<Information />} />
+      <Route path="/gst-resources" element={<Information />} />
+      <Route path="/api-docs" element={<Information />} />
+      <Route path="/terms" element={<Information />} />
+      <Route path="/privacy" element={<Information />} />
       <Route path="/app" element={<Dashboard />} />
       <Route path="/app/invoices" element={<Invoices />} />
       <Route path="/app/clients" element={<Clients />} />

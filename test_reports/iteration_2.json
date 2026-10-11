@@ -1,0 +1,71 @@
+{
+  "passed": 8,
+  "failed": 0,
+  "flaky": 0,
+  "blocked": 0,
+  "test_error": 0,
+  "bugs": [],
+  "action_items": [
+    "No backend test files were added this iteration: all 8 acceptance-matrix criteria are local-first/UI-state behaviors (localStorage invoices, pricing logic, calculator math, informational routes, mocked disclosures) with no FastAPI business-data endpoint backing them. The existing /api/status endpoints remain connectivity probes per spec_deviations and were not re-tested as they map to no criterion this round.",
+    "Authentication, payments, reminders, email, support, exports, and API access remain MOCKED/local demo interactions by approved plan; this was verified via visible disclosure text, not treated as a defect."
+  ],
+  "retest_needed": false,
+  "checks": [
+    {
+      "criterion": "Invoice counts remain consistent across navigation, overview, invoice list, and summary cards",
+      "name": "invoice-counts-consistent",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Sidebar badge and 'All invoices' card both read 4 on seeded state; creating a tscheck draft incremented both to 5 on /app and /app/invoices, and deleting it returned both to 4."
+    },
+    {
+      "criterion": "Pricing recommendation thresholds agree with the visible plan capacities",
+      "name": "pricing-thresholds-match-capacities",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Capacity cards show 'Up to 5/50/200 invoices/month' and 'Unlimited'; slider at 5/50/200/201 recommended Free/Starter/Professional/Business respectively, matching the card text exactly."
+    },
+    {
+      "criterion": "Overdue-interest calculation is transparent and avoids unsupported claims",
+      "name": "overdue-interest-estimate-disclaimer",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Edited principal, days, rate, source (tscheck-custom-rate-source), and effective date; formula/source/date reflected in assumptions block, output changed on rate edit, and page text read 'No rate is asserted as current, statutory, or applicable' and 'Estimate only — not legal, tax, or collection advice.'"
+    },
+    {
+      "criterion": "Footer links lead to real internal informational pages",
+      "name": "footer-informational-pages",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "About, Security, Contact support, GST resources, Help center, API docs, Terms, and Privacy all rendered distinct information-heading/intro content; Contact form submission (tscheck-contact-name) showed 'Nothing was sent externally.'"
+    },
+    {
+      "criterion": "Landing and workspace sample figures cannot be mistaken for verified product results",
+      "name": "mocked-disclosures-labelled",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Homepage metrics-demo-label read 'Illustrative demo samples — not verified product results'; dashboard sample notice, invoices demo notice, invoice next-action feedback ('Nothing was sent externally'), and /security page text ('mocked for evaluation') all disclosed mocked/local behavior."
+    },
+    {
+      "criterion": "Invoice collection workflow supports useful status distinctions and next actions",
+      "name": "invoice-workflow-filters-actions",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Search matched client name and status text ('overdue' -> 1 row); status filter options exactly ['All','Paid','Pending','Due soon','Overdue','Draft']; row showed due date/status/amount/next-action; triggering next action produced feedback containing 'Nothing was sent externally.'"
+    },
+    {
+      "criterion": "New invoice draft has clear requirements, validation, and live totals",
+      "name": "invoice-draft-validation-totals",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Missing description, zero amount, and due-date-before-invoice-date each surfaced invoice-validation-error; live total showed \u20b911,800 at \u20b910,000/18% then \u20b923,600 at \u20b920,000/18%; valid tscheck-draft-service draft saved locally with feedback 'No payment or reminder was created.'"
+    },
+    {
+      "criterion": "Key public, auth, dashboard, invoice, and form surfaces remain responsive",
+      "name": "responsive-no-overflow",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "At 360/390/768/1024/1440 widths, document.scrollWidth<=clientWidth held on homepage; login, dashboard, invoice list, and new-draft form rendered without overflow at 360-1024, and the 360px mobile nav menu opened to reveal Pricing link."
+    }
+  ]
+}

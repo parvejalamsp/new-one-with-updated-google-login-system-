@@ -85,11 +85,17 @@
     --sidebar-ring: oklch(0.708 0 0);
 }
 
-body { font-family: 'Instrument Sans Variable', sans-serif; }
+html { overflow-x: clip; scroll-behavior: smooth; }
+body { min-width: 320px; font-family: 'Instrument Sans Variable', sans-serif; }
 .font-heading { font-family: 'Plus Jakarta Sans Variable', sans-serif; }
 .font-mono { font-family: 'JetBrains Mono Variable', monospace; }
 button, a, input, select, textarea { transition: color .2s ease, background-color .2s ease, border-color .2s ease, transform .2s ease, box-shadow .2s ease; }
 ::selection { background: #bfdbfe; color: #0f172a; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+}
 
 .dark {
     --background: oklch(0.145 0 0);
